@@ -41,7 +41,7 @@ namespace WebApiReact.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Usuario>> UpdateUser(int id, Usuario usuario)
+        public async Task<ActionResult<Usuario>> UpdateUsario(int id, Usuario usuario)
         {
             if (id != usuario.Id)
             {
