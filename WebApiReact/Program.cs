@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiReact.Data;
+using WebApiReact.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

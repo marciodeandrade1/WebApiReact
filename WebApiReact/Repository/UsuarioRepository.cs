@@ -1,32 +1,45 @@
-﻿using WebApiReact.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiReact.Data;
+using WebApiReact.Models;
 
 namespace WebApiReact.Repository
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        public Task<Usuario> AddUsuario(Usuario user)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly AppDbContext _context;
 
-        public Task DeleteUsuario(int id)
+        public UsuarioRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
-
-        public Task<IEnumerable<Usuario>> GetUsers()
+        public async Task<Usuario> AddUsuario(Usuario usuario)
         {
-            throw new NotImplementedException();
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+            return usuario;
         }
-
-        public Task<Usuario> GetUsuario(int id)
+        public async Task DeleteUsuario(int id)
         {
-            throw new NotImplementedException();
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario != null)
+            {
+                _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+            }
         }
-
-        public Task<Usuario> UpdateUsuario(Usuario user)
+        public async Task<IEnumerable<Usuario>> GetUsuarios()
         {
-            throw new NotImplementedException();
+            return await _context.Usuarios.ToListAsync();
+        }
+        public async Task<Usuario> GetUsuario(int id)
+        {
+            return await _context.Usuarios.FindAsync(id);
+        }
+        public async Task<Usuario> UpdateUsuario(Usuario usuario)
+        {
+            _context.Entry(usuario).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return usuario;
         }
     }
 }
